@@ -1,0 +1,147 @@
+{
+  "DBFZ": {
+    "fields": [
+      {
+        "name": "Damage",
+        "value": "damage",
+        "inline": false
+      },
+
+      {
+        "name": "Startup",
+        "value": "startup",
+        "inline": true
+      },
+      {
+        "name": "Active",
+        "value": "active",
+        "inline": true
+      },
+      {
+        "name": "Recovery",
+        "value": "recovery",
+        "inline": true
+      },
+      {
+        "name": "On Block",
+        "value": "onblock",
+        "inline": true
+      },
+      {
+        "name": "Guard",
+        "value": "guard",
+        "inline": true
+      },
+      {
+        "name": "Invul",
+        "value": "invuln",
+        "inline": true
+      }
+    ]
+  },
+  "GGST": {
+    "fields": [
+      {
+        "name": "Damage",
+        "value": "damage",
+        "inline": true
+      },
+
+      {
+        "name": "Startup",
+        "value": "startup",
+        "inline": true
+      },
+      {
+        "name": "Active",
+        "value": "active",
+        "inline": true
+      },
+      {
+        "name": "Recovery",
+        "value": "recovery",
+        "inline": true
+      },
+      {
+        "name": "On Block",
+        "value": "onblock",
+        "inline": true
+      },
+      {
+        "name": "On Hit",
+        "value": "onhit",
+        "inline": true
+      },
+      {
+        "name": "Guard",
+        "value": "guard",
+        "inline": true
+      },
+      {
+        "name": "Invul",
+        "value": "invuln",
+        "inline": true
+      },
+      {
+        "name": "R.I.S.C Gain",
+        "value": "riscgain",
+        "inline": true
+      },
+      {
+        "name": "R.I.S.C Loss",
+        "value": "riscloss",
+        "inline": true
+      },
+      {
+        "name": "Counter",
+        "value": "counter",
+        "inline": true
+      },
+      {
+        "name": "Proration ",
+        "value": "prorate",
+        "inline": true
+      }
+    ]
+  },
+  "P4U2.5": {
+    "fields": [
+      {
+        "name": "Damage",
+        "value": "damage",
+        "inline": true
+      },
+
+      {
+        "name": "Startup",
+        "value": "startup",
+        "inline": true
+      },
+      {
+        "name": "Active",
+        "value": "active",
+        "inline": true
+      },
+      {
+        "name": "Recovery",
+        "value": "recovery",
+        "inline": true
+      },
+      {
+        "name": "On Block",
+        "value": "onblock",
+        "inline": true
+      },
+      {
+        "name": "Guard",
+        "value": "guard",
+        "inline": true
+      },
+      {
+        "name": "Invul",
+        "value": "invuln",
+        "inline": true
+      }
+    ]
+  }
+}
