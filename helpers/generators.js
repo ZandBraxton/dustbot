@@ -5,14 +5,13 @@ const {
   MessageActionRow,
 } = require("discord.js");
 const { v4: uuidv4 } = require("uuid");
-const { data } = require("../commands/beep");
 const templates = require("../data/templates.json");
 
 async function actionRowGenerator(array) {
   const components = [];
   for (let i = 0; i < array.length; i++) {
     const selectRow = new MessageSelectMenu()
-      .setCustomId(`${array[i].moveType}`)
+      .setCustomId(`move-${array[i].moveType}`)
       .setPlaceholder(`${array[i].moveType}`);
 
     for (const move of array[i].moveList) {
@@ -66,6 +65,25 @@ async function characterRowGenerator(array) {
     const row = new MessageActionRow().addComponents(selectRow);
     components.push(row);
   }
+  return components;
+}
+
+async function gameListRowGenerator(array) {
+  const components = [];
+  const selectRow = new MessageSelectMenu()
+    .setCustomId("game")
+    .setPlaceholder("Games");
+
+  for (const game of array) {
+    selectRow.addOptions({
+      label: game.title,
+      value: game.path,
+      default: false,
+    });
+  }
+
+  const row = new MessageActionRow().addComponents(selectRow);
+  components.push(row);
   return components;
 }
 
@@ -163,4 +181,5 @@ module.exports = {
   sortCharacters,
   generateMoveEmbed,
   characterRowGenerator,
+  gameListRowGenerator,
 };

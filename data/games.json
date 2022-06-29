@@ -1,6 +1,13 @@
 {
   "games": [
     {
+      "title": "Dragon Ball FighterZ",
+      "fullPath": "Dragon_Ball_FighterZ",
+      "path": "DBFZ"
+    }
+  ],
+  "todo": [
+    {
       "title": "BlazBlue: Central Fiction",
       "fullPath": "BlazBlue:_Central_Fiction",
       "path": "BBCF"
@@ -19,11 +26,6 @@
       "title": "Guilty Gear -Strive-",
       "fullPath": "Guilty_Gear_-Strive-",
       "path": "GGST"
-    },
-    {
-      "title": "Dragon Ball FighterZ",
-      "fullPath": "Dragon_Ball_FighterZ",
-      "path": "DBFZ"
     },
     {
       "title": "Guilty Gear Xrd REV 2",

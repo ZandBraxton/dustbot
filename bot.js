@@ -4,7 +4,11 @@ const fetch = require("node-fetch");
 const path = require("node:path");
 const { games } = require("./data/games.json");
 const { Client, Collection, Intents } = require("discord.js");
-const { getCharacters } = require("./database/queries");
+const {
+  getCharacters,
+  getCharacter,
+  getMoveset,
+} = require("./database/queries");
 const client = new Client({
   intents: [
     Intents.FLAGS.GUILDS,
@@ -34,14 +38,16 @@ for (const file of commandFiles) {
 
 client.on("interactionCreate", async (interaction) => {
   if (interaction.isAutocomplete()) {
-    console.log(interaction.options._hoistedOptions[0].value);
+    console.log(interaction.options._hoistedOptions);
     if (
       interaction.commandName === "character" ||
-      interaction.commandName === "games"
+      interaction.commandName === "games" ||
+      interaction.commandName === "move"
     ) {
       const focusedOption = interaction.options.getFocused(true);
       console.log(focusedOption);
       let choices = [];
+      let result;
 
       if (focusedOption.name === "game") {
         for (let i = 0; i < games.length; i++) {
@@ -51,17 +57,15 @@ client.on("interactionCreate", async (interaction) => {
 
       if (focusedOption.name === "character-name") {
         console.log(interaction.options._hoistedOptions[0].value);
-        // const gameName = games.find(
-        //   (game) => game.title === interaction.options._hoistedOptions[0].value
-        // );
-
-        // console.log(gameName);
-        // console.log(`http://127.0.0.1:8000/${gameName.fullPath}`);
-        const result = await getCharacters("DBFZ");
+        const result = await getCharacters(
+          interaction.options._hoistedOptions[0].value
+        );
 
         if (focusedOption.value !== "" && result.length > 24) {
           const characterFilter = result.filter((character) =>
-            character.name.startsWith(focusedOption.value.toUpperCase())
+            character.name
+              .toLocaleLowerCase()
+              .match(focusedOption.value.toLocaleLowerCase())
           );
           return await interaction.respond(
             characterFilter.map((character) => ({
@@ -88,8 +92,98 @@ client.on("interactionCreate", async (interaction) => {
         );
       }
 
-      const filtered = choices.filter((choice) =>
-        choice.name.startsWith(focusedOption.value.toUpperCase())
+      if (focusedOption.name === "move-type") {
+        // const result = await getCharacter(
+        //   interaction.options._hoistedOptions[0].value,
+        //   interaction.options._hoistedOptions[1].value
+        // );
+        result = await getMoveset(
+          interaction.options._hoistedOptions[0].value,
+          interaction.options._hoistedOptions[1].value
+        );
+
+        if (focusedOption.value !== "") {
+          const filter = result.filter((element) =>
+            element.moveType
+              .toLocaleLowerCase()
+              .match(focusedOption.value.toLocaleLowerCase())
+          );
+          return await interaction.respond(
+            filter.map((element) => ({
+              name: element.moveType,
+              value: element.moveType,
+            }))
+          );
+        }
+
+        result.map((el) => choices.push(el.moveType));
+        console.log(choices);
+
+        return await interaction.respond(
+          choices.map((element) => ({
+            name: element,
+            value: element,
+          }))
+        );
+      }
+
+      if (focusedOption.name === "move") {
+        const result = await getMoveset(
+          interaction.options._hoistedOptions[0].value,
+          interaction.options._hoistedOptions[1].value
+        );
+
+        const moveSet = result.find(
+          (list) =>
+            list.moveType === interaction.options._hoistedOptions[2].value
+        );
+
+        if (focusedOption.value !== "") {
+          const filter = moveSet.moveList.filter((move) =>
+            move.name
+              ? move.name
+                  .toLocaleLowerCase()
+                  .match(focusedOption.value.toLocaleLowerCase())
+              : move.input
+                  .toLocaleLowerCase()
+                  .match(focusedOption.value.toLocaleLowerCase())
+          );
+          return await interaction.respond(
+            filter.map((move) => ({
+              name: move.name ? move.name : move.input,
+              value: move.name ? move.name : move.input,
+            }))
+          );
+        }
+
+        if (moveSet.moveList.length >= 25) {
+          for (let i = 0; i < 24; i++) {
+            choices.push(
+              moveSet.moveList[i].name
+                ? moveSet.moveList[i].name
+                : moveSet.moveList[i].input
+            );
+          }
+          choices.push({ name: "Type to view more", path: "" });
+        } else {
+          moveSet.moveList.map((move) =>
+            choices.push(move.name ? move.name : move.input)
+          );
+        }
+
+        console.log(choices);
+
+        return await interaction.respond(
+          choices.map((move) => ({ name: move, value: move }))
+        );
+      }
+
+      const filtered = choices.filter(
+        (choice) =>
+          choice.name
+            .toLocaleLowerCase()
+            .match(focusedOption.value.toLocaleLowerCase())
+        // choice.name.startsWith(focusedOption.value.toUpperCase())
       );
       console.log(focusedOption.value);
       console.log(filtered);

@@ -4,7 +4,11 @@ const {
   massUpdateCharacters,
 } = require("./database/api-calls");
 const { generateMoveEmbed } = require("./helpers/generators");
-const { getCharacters, getCharacter } = require("./database/queries");
+const {
+  getCharacters,
+  getCharacter,
+  getMoveset,
+} = require("./database/queries");
 // let move = {
 //   active: "3",
 //   airHit: "",
@@ -32,7 +36,8 @@ const { getCharacters, getCharacter } = require("./database/queries");
 
 // generateMoveEmbed(move, character);
 // updateCharacter("DBFZ/Videl");
-getCharacters("DBFZ");
-getCharacter("DBFZ", "Bardock");
+// getCharacters("DBFZ");
+// getCharacter("DBFZ", "Bardock");
+getMoveset("DBFZ", "Bardock");
 
 // massUpdateCharacters();

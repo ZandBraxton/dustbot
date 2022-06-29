@@ -83,4 +83,25 @@ async function getCharacter(db, character) {
   return result;
 }
 
-module.exports = { updateCharacterData, getCharacters, getCharacter, getInfo };
+async function getMoveset(db, character) {
+  await client.connect();
+  const result = await client
+    .db(db)
+    .collection("characters")
+    .findOne(
+      {
+        name: character,
+      },
+      { projection: { moveSet: 1 } }
+    );
+  console.log(result.moveSet);
+  return result.moveSet;
+}
+
+module.exports = {
+  updateCharacterData,
+  getCharacters,
+  getCharacter,
+  getInfo,
+  getMoveset,
+};
