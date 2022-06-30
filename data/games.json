@@ -4,6 +4,11 @@
       "title": "Dragon Ball FighterZ",
       "fullPath": "Dragon_Ball_FighterZ",
       "path": "DBFZ"
+    },
+    {
+      "title": "Guilty Gear -Strive-",
+      "fullPath": "Guilty_Gear_-Strive-",
+      "path": "GGST"
     }
   ],
   "todo": [
@@ -21,11 +26,6 @@
       "title": "Guilty Gear XX Accent Core Plus R",
       "fullPath": "Guilty_Gear_XX_Accent_Core_Plus_R",
       "path": "GGACR"
-    },
-    {
-      "title": "Guilty Gear -Strive-",
-      "fullPath": "Guilty_Gear_-Strive-",
-      "path": "GGST"
     },
     {
       "title": "Guilty Gear Xrd REV 2",

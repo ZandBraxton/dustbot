@@ -49,6 +49,7 @@ async function updateCharacterData(data) {
           url: data.character.url,
           wikiPath: data.character.wikiPath,
           moveSet: data.moveCollection,
+          systemData: data.systemData ? data.systemData : "N/A",
         },
       },
       { upsert: true }

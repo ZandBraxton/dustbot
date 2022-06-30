@@ -38,14 +38,14 @@ for (const file of commandFiles) {
 
 client.on("interactionCreate", async (interaction) => {
   if (interaction.isAutocomplete()) {
-    console.log(interaction.options._hoistedOptions);
+    // console.log(interaction.options._hoistedOptions);
     if (
       interaction.commandName === "character" ||
       interaction.commandName === "games" ||
       interaction.commandName === "move"
     ) {
       const focusedOption = interaction.options.getFocused(true);
-      console.log(focusedOption);
+      // console.log(focusedOption);
       let choices = [];
       let result;
 
@@ -56,7 +56,7 @@ client.on("interactionCreate", async (interaction) => {
       }
 
       if (focusedOption.name === "character-name") {
-        console.log(interaction.options._hoistedOptions[0].value);
+        // console.log(interaction.options._hoistedOptions[0].value);
         const result = await getCharacters(
           interaction.options._hoistedOptions[0].value
         );
@@ -117,7 +117,7 @@ client.on("interactionCreate", async (interaction) => {
         }
 
         result.map((el) => choices.push(el.moveType));
-        console.log(choices);
+        // console.log(choices);
 
         return await interaction.respond(
           choices.map((element) => ({
@@ -171,7 +171,7 @@ client.on("interactionCreate", async (interaction) => {
           );
         }
 
-        console.log(choices);
+        // console.log(choices);
 
         return await interaction.respond(
           choices.map((move) => ({ name: move, value: move }))
@@ -185,8 +185,8 @@ client.on("interactionCreate", async (interaction) => {
             .match(focusedOption.value.toLocaleLowerCase())
         // choice.name.startsWith(focusedOption.value.toUpperCase())
       );
-      console.log(focusedOption.value);
-      console.log(filtered);
+      // console.log(focusedOption.value);
+      // console.log(filtered);
       await interaction.respond(
         filtered.map((choice) => ({ name: choice.name, value: choice.value }))
       );

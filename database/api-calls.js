@@ -2,7 +2,8 @@ const fetch = require("node-fetch");
 const { updateCharacterData } = require("./queries");
 
 async function massUpdateCharacters() {
-  const result = await fetch(`http://127.0.0.1:8000/Dragon_Ball_FighterZ`);
+  const result = await fetch(`http://127.0.0.1:8000/Guilty_Gear_-Strive-`);
+  // const result = await fetch(`http://127.0.0.1:8000/Dragon_Ball_FighterZ`);
 
   let characters = await result.json();
   for (let i = 0; i < characters.length; i++) {

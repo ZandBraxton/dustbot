@@ -38,6 +38,10 @@ const {
 // updateCharacter("DBFZ/Videl");
 // getCharacters("DBFZ");
 // getCharacter("DBFZ", "Bardock");
-getMoveset("DBFZ", "Bardock");
+// getMoveset("DBFZ", "Bardock");
+// updateCharacter("DBFZ/Videl");
 
-// massUpdateCharacters();
+// updateCharacter("GGST/Sol_Badguy");
+// updateCharacter("GGST/Giovanna");
+// updateCharacter("GGST/Leo_Whitefang");
+massUpdateCharacters();

@@ -1,9 +1,9 @@
-const { sortData } = require("../helpers/generators");
+const { sortMoves } = require("../helpers/generators");
 const dummyarray = require("../aigis.json");
 
 test("if array is longer than 4, return split arrays", async () => {
   const expected = [[], []];
-  const result = await sortData(dummyarray.moveCollection);
+  const result = await sortMoves(dummyarray.moveCollection);
   expect(result).toEqual(expect.anything());
 });
 

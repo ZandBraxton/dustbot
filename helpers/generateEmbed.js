@@ -12,7 +12,7 @@ const {
 // const { getCharacterInfo } = require("./getCharacterInfo");
 // const { getMoveInfo } = require("./getMoveInfo");
 const {
-  sortData,
+  sortMoves,
   sortCharacters,
   actionRowGenerator,
   characterRowGenerator,
@@ -20,9 +20,9 @@ const {
 } = require("../helpers/generators");
 
 const { getCharacter, getCharacters, getInfo } = require("../database/queries");
+const e = require("express");
 
 async function generateEmbed(interaction, data) {
-  console.log(data);
   // console.log(move);
   // console.log(interaction);
 
@@ -61,8 +61,12 @@ async function generateEmbed(interaction, data) {
     data.move = move;
     data = await generateMoveEmbed(data);
   }
+  if (interaction.customId.substring(0, 3) === "sys") {
+    console.log(interaction.values[0]);
+    await generateSysEmbed(data, interaction.values[0]);
+    // data = await generateSysEmbed(data);
+  }
 
-  console.log(data);
   // if interaction = character
   // get characters
 
@@ -141,7 +145,6 @@ async function generateRosterEmbed(data) {
       url: info.url,
     });
 
-  console.log(embed);
   data.embed = embed;
   data.components = components;
   data.pageIndex = 0;
@@ -151,9 +154,10 @@ async function generateRosterEmbed(data) {
 
 async function generateCharacterEmbed(data) {
   const result = await getCharacter(data.game, data.character);
-  const sortedMoveset = await sortData(result.moveSet);
 
-  const components = await actionRowGenerator(sortedMoveset[0]);
+  const sortedMoveset = await sortMoves(result.moveSet, result.systemData);
+
+  const components = await actionRowGenerator(sortedMoveset[data.pageIndex]);
 
   const buttonRow = new MessageActionRow();
 
@@ -180,13 +184,14 @@ async function generateCharacterEmbed(data) {
     .setTitle(`${result.name}`)
     .setThumbnail(`${result.thumbnail}`)
     .setDescription(`${result.description}`)
-    .setFooter({ text: `Twitter tag | ${result.twitterTag}` })
+    .setFooter({ text: `Twitter tag | ${result.twitterTag.join("\n")}` })
     .setAuthor({
       name: "Dustloop Page",
       iconURL:
         "https://www.dustloop.com/wiki/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
       url: result.url,
     });
+
   delete result.moveSet;
 
   data.embed = embed;
@@ -270,10 +275,58 @@ async function generateMoveEmbed(data) {
   fields.map((field) => {
     embed.addFields({
       name: field.name,
-      value: data.move[field.value] === "" ? "None" : data.move[field.value],
+      value: data.move[field.value] === "" ? "-" : data.move[field.value],
       inline: field.inline,
     });
   });
+
+  data.embed = embed;
+  return data;
+}
+
+async function generateSysEmbed(data, key) {
+  const found = data.character.systemData.find((el) => el.title === key);
+
+  const embed = new MessageEmbed()
+    .setColor("#0099ff")
+    .setTitle(`${key}`)
+    .setThumbnail(data.character.thumbnail)
+    .setAuthor({
+      name: "Dustloop Page",
+      iconURL:
+        "https://www.dustloop.com/wiki/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
+      url: data.character.url,
+    });
+  const fields = {};
+
+  found.data.map((object) => {
+    for (const prop in object) {
+      let value = object[prop] === "" ? "-" : object[prop];
+      if (fields[prop]) {
+        fields[prop].push(value);
+      } else {
+        fields[prop] = [];
+        fields[prop].push(value);
+      }
+    }
+  });
+
+  if (fields["Name"]) {
+    embed.addFields({
+      name: "Name",
+      value: fields["Name"].join("\n"),
+    });
+  }
+
+  for (const prop in fields) {
+    if (prop !== "Name") {
+      embed.addFields({
+        name: prop,
+        value: fields[prop].join("\n"),
+        inline: true,
+      });
+    }
+  }
 
   data.embed = embed;
   return data;
@@ -286,4 +339,5 @@ module.exports = {
   generateRosterEmbed,
   generatePageChange,
   generateMoveEmbed,
+  generateSysEmbed,
 };
