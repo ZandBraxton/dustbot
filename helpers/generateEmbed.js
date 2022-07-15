@@ -19,7 +19,18 @@ const {
 const { getCharacter, getCharacters, getInfo } = require("../database/queries");
 const reBrackets = /\(([^)]+)\)/;
 
+const closeButton = new MessageButton()
+  .setCustomId("close")
+  .setLabel("Close")
+  .setStyle("DANGER");
+
 async function generateEmbed(interaction, data) {
+  if (interaction.customId === "close") {
+    await interaction.deferUpdate();
+    await interaction.deleteReply();
+    return;
+  }
+
   if (interaction.customId === "game-list") {
     data = await generateGameListEmbed(data);
   }
@@ -80,6 +91,8 @@ async function generateGameListEmbed(data) {
     });
 
   const components = await gameListRowGenerator(games);
+  const buttonRow = new MessageActionRow().addComponents(closeButton);
+  components.push(buttonRow);
   data.embed = embed;
   data.components = components;
   return data;
@@ -97,6 +110,7 @@ async function generateRosterEmbed(data) {
       .setStyle("SECONDARY")
       .setEmoji("⬅️")
   );
+  buttonRow.addComponents(closeButton);
   components.push(buttonRow);
 
   const embed = new MessageEmbed()
@@ -143,6 +157,8 @@ async function generateCharacterEmbed(data) {
       .setEmoji("➡️");
     buttonRow.addComponents(nextButton);
   }
+
+  buttonRow.addComponents(closeButton);
 
   components.push(buttonRow);
 
@@ -205,6 +221,8 @@ async function generatePageChange(data) {
       .setEmoji("➡️");
     buttonRow.addComponents(nextButton);
   }
+
+  buttonRow.addComponents(closeButton);
 
   components.push(buttonRow);
 
