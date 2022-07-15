@@ -22,15 +22,21 @@ for (const file of commandFiles) {
 
 const clientId = process.env.CLIENT_ID;
 // const guildId = process.env.GUILD_ID;
-const guildId = process.env.HOOK_GUILD_ID;
 
 // for (const file of commandFiles) {
 //   const command = require(`./commands/${file}`);
 //   commands.push(command.data.toJSON());
 // }
 
+//guild commands
+// const rest = new REST({ version: "9" }).setToken(process.env.BOT_TOKEN);
+// rest
+//   .put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
+//   .then(() => console.log("Successfully registered application commands."))
+//   .catch(console.error);
+
 const rest = new REST({ version: "9" }).setToken(process.env.BOT_TOKEN);
 rest
-  .put(Routes.applicationGuildCommands(clientId, guildId), { body: commands })
+  .put(Routes.applicationCommands(clientId), { body: commands })
   .then(() => console.log("Successfully registered application commands."))
   .catch(console.error);

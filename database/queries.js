@@ -1,36 +1,8 @@
 const client = require("../database/mongodb");
 
-async function createGames(data) {
-  await client.connect();
-
-  const result = await client
-    .db("dustloop")
-    .collection("games")
-    .updateOne(
-      {
-        game: data.game,
-        path: data.value,
-      },
-      {
-        $set: {
-          id: user.id,
-          username: user.username,
-          avatar:
-            collection === "cpu-tributes"
-              ? user.avatar
-              : `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.jpeg`,
-          guild: interaction.guild.id,
-          active: true,
-        },
-      },
-      { upsert: true }
-    );
-  return result;
-}
-
 async function updateCharacterData(data) {
   await client.connect();
-  const result = await client
+  await client
     .db(data.character.game)
     .collection("characters")
     .updateOne(

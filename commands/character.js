@@ -56,9 +56,6 @@ module.exports = {
       try {
         data = await generateEmbed(i, data);
       } catch (error) {
-        // console.log(data.game);
-        // console.log(data.character.name);
-        // console.log(data.move);
         console.log(error);
       }
     });

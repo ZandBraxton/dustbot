@@ -1,3 +1,5 @@
 node_modules
 .env
 README.txt
+./database/api-calls.js
+getGames.js
