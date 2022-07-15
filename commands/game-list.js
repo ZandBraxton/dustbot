@@ -9,6 +9,7 @@ module.exports = {
     .setName("game-list")
     .setDescription("View the list of supported games!"),
   async execute(interaction) {
+    //cache's data to be used through changing embeds
     let data = {
       embed: null,
       components: null,

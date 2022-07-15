@@ -1,12 +1,6 @@
-const fetch = require("node-fetch");
 const templates = require("../data/templates.json");
 const { games } = require("../data/games.json");
-const {
-  MessageEmbed,
-  MessageSelectMenu,
-  MessageButton,
-  MessageActionRow,
-} = require("discord.js");
+const { MessageEmbed, MessageButton, MessageActionRow } = require("discord.js");
 
 const {
   sortMoves,
@@ -17,6 +11,7 @@ const {
 } = require("../helpers/generators");
 
 const { getCharacter, getCharacters, getInfo } = require("../database/queries");
+//finds values stored inside round brackets
 const reBrackets = /\(([^)]+)\)/;
 
 const closeButton = new MessageButton()
@@ -24,6 +19,19 @@ const closeButton = new MessageButton()
   .setLabel("Close")
   .setStyle("DANGER");
 
+const nextButton = new MessageButton()
+  .setCustomId("ch-next")
+  .setLabel("Show More")
+  .setStyle("PRIMARY")
+  .setEmoji("➡️");
+
+const prevButton = new MessageButton()
+  .setCustomId("ch-prev")
+  .setLabel("Go Back")
+  .setStyle("PRIMARY")
+  .setEmoji("⬅️");
+
+//General function that decides which embed to be called
 async function generateEmbed(interaction, data) {
   if (interaction.customId === "close") {
     await interaction.deferUpdate();
@@ -46,6 +54,7 @@ async function generateEmbed(interaction, data) {
     data.character = interaction.values[0];
     data = await generateCharacterEmbed(data);
   }
+
   if (
     interaction.customId === "ch-next" ||
     interaction.customId === "ch-prev"
@@ -53,9 +62,12 @@ async function generateEmbed(interaction, data) {
     interaction.customId === "ch-next" ? data.pageIndex++ : data.pageIndex--;
     data = await generatePageChange(data);
   }
+
   if (interaction.customId.substring(0, 4) === "move") {
     let moveTypeCheck = reBrackets.exec(interaction.customId);
+    //grabs value inside of round brackets
     let moveCheck = reBrackets.exec(interaction.values[0]);
+
     const flatList = data.sortedMoveset.flat();
     const foundMovelist = flatList.find(
       (list) => list.moveType === moveTypeCheck[1]
@@ -150,11 +162,6 @@ async function generateCharacterEmbed(data) {
 
   buttonRow.addComponents(returnButton);
   if (sortedMoveset.length > 1) {
-    const nextButton = new MessageButton()
-      .setCustomId("ch-next")
-      .setLabel("Show More")
-      .setStyle("PRIMARY")
-      .setEmoji("➡️");
     buttonRow.addComponents(nextButton);
   }
 
@@ -178,6 +185,7 @@ async function generateCharacterEmbed(data) {
       url: result.url,
     });
 
+  //data that doesn't need to be cached
   delete result.moveSet;
 
   data.embed = embed;
@@ -204,21 +212,11 @@ async function generatePageChange(data) {
 
   //if there is a prev page
   if (data.sortedMoveset[data.pageIndex - 1] !== undefined) {
-    const prevButton = new MessageButton()
-      .setCustomId("ch-prev")
-      .setLabel("Go Back")
-      .setStyle("PRIMARY")
-      .setEmoji("⬅️");
     buttonRow.addComponents(prevButton);
   }
 
-  //if there is a pnext page
+  //if there is a next page
   if (data.sortedMoveset[data.pageIndex + 1] !== undefined) {
-    const nextButton = new MessageButton()
-      .setCustomId("ch-next")
-      .setLabel("Show More")
-      .setStyle("PRIMARY")
-      .setEmoji("➡️");
     buttonRow.addComponents(nextButton);
   }
 
@@ -253,10 +251,6 @@ async function generateMoveEmbed(data) {
   }
 
   if (data.move.image !== "") {
-    // await fetch(data.move.image, { method: "HEAD" }).then((res) => {
-    //   console.log(res.status);
-    // });
-
     embed.setImage(data.move.image);
   } else {
     embed.setFooter({

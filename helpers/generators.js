@@ -1,17 +1,12 @@
-const {
-  MessageSelectMenu,
-  MessageEmbed,
-  MessageButton,
-  MessageActionRow,
-} = require("discord.js");
+const { MessageSelectMenu, MessageActionRow } = require("discord.js");
 const { v4: uuidv4 } = require("uuid");
-const templates = require("../data/templates.json");
 
 async function actionRowGenerator(array) {
   const components = [];
 
   for (let i = 0; i < array.length; i++) {
     const selectRow = new MessageSelectMenu();
+    //if system data exists, create it as the first row
     if (array[i].moveType === "System Data") {
       selectRow.setCustomId(`sys`).setPlaceholder(`${array[i].moveType}`);
       for (const obj of array[i].moveList) {
@@ -104,6 +99,7 @@ async function gameListRowGenerator(array) {
   return components;
 }
 
+//sorts the moveset into arrays of 25 length to adhere to discord embed limits
 async function sortMoves(array, systemData) {
   const sortedArray = [];
   if (systemData !== "N/A") {
@@ -127,6 +123,7 @@ async function sortMoves(array, systemData) {
     }
   }
 
+  //splits arrays into groups of four or less
   if (sortedArray.length > 4) {
     const slicedArray = [];
     await splitArray(sortedArray, slicedArray, 4);
@@ -146,6 +143,7 @@ async function sortCharacters(array) {
   return sortedArray;
 }
 
+//recursively splits array
 async function splitArray(array, sortedArray, endIndex) {
   const firstHalf = array.slice(0, endIndex);
   const secondHalf = array.slice(endIndex);

@@ -27,6 +27,7 @@ module.exports = {
     const character = interaction.options.getString("character-name");
     const game = interaction.options.getString("game");
 
+    //cache's data to be used through changing embeds
     let data = {
       embed: null,
       components: null,

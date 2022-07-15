@@ -18,6 +18,7 @@ module.exports = {
   async execute(interaction) {
     const game = interaction.options.getString("game");
 
+    //cache's data to be used through changing embeds
     let data = {
       embed: null,
       components: null,

@@ -44,6 +44,7 @@ module.exports = {
     const moveType = interaction.options.getString("move-type");
     const moveName = interaction.options.getString("move");
 
+    //cache's data to be used through changing embeds
     let data = {
       embed: null,
       components: null,
@@ -54,6 +55,7 @@ module.exports = {
       move: null,
     };
 
+    //Have to generate character embed to easily navigate to move embed
     await generateCharacterEmbed(data);
     const flatList = data.sortedMoveset.flat();
     const foundMovelist = flatList.find(

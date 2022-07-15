@@ -24,6 +24,7 @@ const {
   gameListRowGenerator,
 } = require("./helpers/generators");
 
+//iterates through games and characters, calling each embed
 async function massTestCharacterEmbed(data) {
   const characters = await getCharacters(data.game);
 
@@ -40,6 +41,7 @@ async function massTestCharacterEmbed(data) {
   console.log("Done!" + "-" + data.game);
 }
 
+//checks for errors to see if any of the dynamic data isn't valid
 async function massTestMoveEmbed(data) {
   const flatList = data.sortedMoveset.flat();
   for (let i = 0; i < flatList.length; i++) {
