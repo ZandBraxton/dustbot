@@ -39,8 +39,6 @@ module.exports = {
 
     await generateCharacterEmbed(data);
 
-    console.log(data);
-
     await interaction.reply({
       embeds: [data.embed],
       components: data.components,
@@ -55,7 +53,14 @@ module.exports = {
       filter,
     });
     collector.on("collect", async (i) => {
-      data = await generateEmbed(i, data);
+      try {
+        data = await generateEmbed(i, data);
+      } catch (error) {
+        // console.log(data.game);
+        // console.log(data.character.name);
+        // console.log(data.move);
+        console.log(error);
+      }
     });
   },
 };

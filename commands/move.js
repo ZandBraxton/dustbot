@@ -56,12 +56,14 @@ module.exports = {
 
     await generateCharacterEmbed(data);
     const flatList = data.sortedMoveset.flat();
-    const foundMovelist = flatList.find((list) => list.moveType === moveType);
+    const foundMovelist = flatList.find(
+      (list) => list.moveType.substring(0, moveType.length) === moveType
+    );
+
     const move = foundMovelist.moveList.find(
       (move) => move.input === moveName || move.name === moveName
     );
     data.move = move;
-    console.log(data);
     await generateMoveEmbed(data);
 
     await interaction.reply({
@@ -78,7 +80,11 @@ module.exports = {
       filter,
     });
     collector.on("collect", async (i) => {
-      data = await generateEmbed(i, data);
+      try {
+        data = await generateEmbed(i, data);
+      } catch (error) {
+        console.log(error);
+      }
     });
   },
 };

@@ -22,7 +22,7 @@ async function actionRowGenerator(array) {
       }
     } else {
       selectRow
-        .setCustomId(`move-${array[i].moveType}`)
+        .setCustomId(`move-(${array[i].moveType})` + uuidv4())
         .setPlaceholder(`${array[i].moveType}`);
 
       for (const move of array[i].moveList) {
@@ -30,14 +30,19 @@ async function actionRowGenerator(array) {
         let valueOption;
 
         if (move.name && move.input) {
-          labelOption = `${move.name} | ${move.input}`;
-          valueOption = `${move.input}`;
+          if (move.name === move.input) {
+            labelOption = `${move.input}`;
+            valueOption = `(${move.input})` + uuidv4();
+          } else {
+            labelOption = `${move.name} | ${move.input}`;
+            valueOption = `(${move.input})` + uuidv4();
+          }
         } else if (!move.name && move.input) {
           labelOption = `${move.input}`;
-          valueOption = `${move.input}`;
+          valueOption = `(${move.input})` + uuidv4();
         } else if (move.name && !move.input) {
           labelOption = `${move.name}`;
-          valueOption = `${move.name}`;
+          valueOption = `(${move.name})` + uuidv4();
         } else {
           labelOption = "N/A";
           valueOption = uuidv4();
@@ -50,6 +55,7 @@ async function actionRowGenerator(array) {
         });
       }
     }
+
     const row = new MessageActionRow().addComponents(selectRow);
     components.push(row);
   }
@@ -100,7 +106,7 @@ async function gameListRowGenerator(array) {
 
 async function sortMoves(array, systemData) {
   const sortedArray = [];
-  if (systemData) {
+  if (systemData !== "N/A") {
     sortedArray.push({
       moveList: systemData,
       moveType: "System Data",
@@ -151,49 +157,10 @@ async function splitArray(array, sortedArray, endIndex) {
   }
 }
 
-async function generateMoveEmbed(move, character) {
-  console.log(move);
-  console.log(character);
-  const embed = new MessageEmbed()
-    .setColor("#0099ff")
-    .setTitle(`${character.name} - ${move.name ? move.name : move.input}`)
-    .setThumbnail(character.thumbnail)
-    .setAuthor({
-      name: "Dustloop Page",
-      iconURL:
-        "https://www.dustloop.com/wiki/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
-      url: data.url,
-    });
-
-  if (move.name && move.input) {
-    embed.setDescription(move.input);
-  }
-
-  if (move.image !== "") {
-    embed.setImage(move.image);
-  }
-
-  const fields = templates[character.game].fields;
-  fields.map((field) => {
-    embed.addFields({
-      name: field.name,
-      value: move[field.value] === "" ? "None" : move[field.value],
-      inline: field.inline,
-    });
-  });
-
-  return embed;
-}
-
-// async function generateFields(game) {
-//   console.log(templates[game]);
-// }
-
 module.exports = {
   actionRowGenerator,
   sortMoves,
   sortCharacters,
-  generateMoveEmbed,
   characterRowGenerator,
   gameListRowGenerator,
 };

@@ -10,6 +10,11 @@
     "testDevStart": "nodemon devBot.js",
     "test": "jest"
   },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "jest-extended"
+    ]
+  },
   "author": "",
   "license": "ISC",
   "dependencies": {
@@ -26,5 +31,8 @@
     "python-shell": "^3.0.1",
     "undici": "^5.4.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "jest-extended": "^3.0.0"
   }
 }

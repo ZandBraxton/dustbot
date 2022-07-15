@@ -49,7 +49,7 @@ async function updateCharacterData(data) {
           url: data.character.url,
           wikiPath: data.character.wikiPath,
           moveSet: data.moveCollection,
-          systemData: data.systemData ? data.systemData : "N/A",
+          systemData: data.systemData.length === 0 ? "N/A" : data.systemData,
         },
       },
       { upsert: true }
@@ -95,7 +95,6 @@ async function getMoveset(db, character) {
       },
       { projection: { moveSet: 1 } }
     );
-  console.log(result.moveSet);
   return result.moveSet;
 }
 

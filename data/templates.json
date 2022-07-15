@@ -23,8 +23,13 @@
         "inline": true
       },
       {
-        "name": "On Block",
+        "name": "Advantage",
         "value": "onblock",
+        "inline": true
+      },
+      {
+        "name": "Blockstun",
+        "value": "blockstun",
         "inline": true
       },
       {
@@ -98,13 +103,359 @@
         "inline": true
       },
       {
-        "name": "Proration ",
+        "name": "Proration",
         "value": "proration",
         "inline": true
       }
     ]
   },
-  "P4U2.5": {
+  "P4U2": {
+    "fields": [
+      {
+        "name": "Damage",
+        "value": "damage",
+        "inline": true
+      },
+
+      {
+        "name": "Startup",
+        "value": "startup",
+        "inline": true
+      },
+      {
+        "name": "Active",
+        "value": "active",
+        "inline": true
+      },
+      {
+        "name": "Recovery",
+        "value": "recovery",
+        "inline": true
+      },
+      {
+        "name": "Advantage",
+        "value": "onblock",
+        "inline": true
+      },
+      {
+        "name": "Blockstun",
+        "value": "blockstun",
+        "inline": true
+      },
+      {
+        "name": "Guard",
+        "value": "guard",
+        "inline": true
+      },
+      {
+        "name": "Invul",
+        "value": "invuln",
+        "inline": true
+      },
+      {
+        "name": "Attribute",
+        "value": "attribute",
+        "inline": true
+      },
+
+      {
+        "name": "Starter Proration",
+        "value": "p1",
+        "inline": true
+      },
+
+      {
+        "name": "Combo Proration",
+        "value": "p2",
+        "inline": true
+      }
+    ]
+  },
+  "BBCF": {
+    "fields": [
+      {
+        "name": "Damage",
+        "value": "damage",
+        "inline": true
+      },
+
+      {
+        "name": "Startup",
+        "value": "startup",
+        "inline": true
+      },
+      {
+        "name": "Active",
+        "value": "active",
+        "inline": true
+      },
+      {
+        "name": "Recovery",
+        "value": "recovery",
+        "inline": true
+      },
+      {
+        "name": "Advantage",
+        "value": "onblock",
+        "inline": true
+      },
+      {
+        "name": "Blockstun",
+        "value": "blockstun",
+        "inline": true
+      },
+      {
+        "name": "Guard",
+        "value": "guard",
+        "inline": true
+      },
+      {
+        "name": "Invul",
+        "value": "invuln",
+        "inline": true
+      },
+      {
+        "name": "Attribute",
+        "value": "attribute",
+        "inline": true
+      },
+
+      {
+        "name": "Starter Proration",
+        "value": "p1",
+        "inline": true
+      },
+
+      {
+        "name": "Combo Proration",
+        "value": "p2",
+        "inline": true
+      }
+    ]
+  },
+  "BBTag": {
+    "fields": [
+      {
+        "name": "Damage",
+        "value": "damage",
+        "inline": true
+      },
+
+      {
+        "name": "Startup",
+        "value": "startup",
+        "inline": true
+      },
+      {
+        "name": "Active",
+        "value": "active",
+        "inline": true
+      },
+      {
+        "name": "Recovery",
+        "value": "recovery",
+        "inline": true
+      },
+      {
+        "name": "Advantage",
+        "value": "onblock",
+        "inline": true
+      },
+      {
+        "name": "Blockstun",
+        "value": "blockstun",
+        "inline": true
+      },
+      {
+        "name": "Guard",
+        "value": "guard",
+        "inline": true
+      },
+      {
+        "name": "Invul",
+        "value": "invuln",
+        "inline": true
+      },
+      {
+        "name": "Attribute",
+        "value": "attribute",
+        "inline": true
+      },
+
+      {
+        "name": "Starter Proration",
+        "value": "p1",
+        "inline": true
+      },
+
+      {
+        "name": "Combo Proration",
+        "value": "p2",
+        "inline": true
+      }
+    ]
+  },
+  "GGACR": {
+    "fields": [
+      {
+        "name": "Damage",
+        "value": "damage",
+        "inline": true
+      },
+
+      {
+        "name": "Startup",
+        "value": "startup",
+        "inline": true
+      },
+      {
+        "name": "Active",
+        "value": "active",
+        "inline": true
+      },
+      {
+        "name": "Recovery",
+        "value": "recovery",
+        "inline": true
+      },
+      {
+        "name": "Advantage",
+        "value": "onblock",
+        "inline": true
+      },
+      {
+        "name": "Blockstun",
+        "value": "blockstun",
+        "inline": true
+      },
+      {
+        "name": "Guard",
+        "value": "guard",
+        "inline": true
+      },
+      {
+        "name": "Invul",
+        "value": "invuln",
+        "inline": true
+      },
+      {
+        "name": "Proration",
+        "value": "prorate",
+        "inline": true
+      },
+      {
+        "name": "Tension",
+        "value": "tension",
+        "inline": true
+      }
+    ]
+  },
+  "GGXRD-R2": {
+    "fields": [
+      {
+        "name": "Damage",
+        "value": "damage",
+        "inline": true
+      },
+
+      {
+        "name": "Startup",
+        "value": "startup",
+        "inline": true
+      },
+      {
+        "name": "Active",
+        "value": "active",
+        "inline": true
+      },
+      {
+        "name": "Recovery",
+        "value": "recovery",
+        "inline": true
+      },
+      {
+        "name": "Advantage",
+        "value": "onblock",
+        "inline": true
+      },
+      {
+        "name": "Guard",
+        "value": "guard",
+        "inline": true
+      },
+      {
+        "name": "Invul",
+        "value": "invuln",
+        "inline": true
+      },
+      {
+        "name": "Proration",
+        "value": "prorate",
+        "inline": true
+      },
+      {
+        "name": "Tension",
+        "value": "tension",
+        "inline": true
+      },
+      {
+        "name": "R.I.S.C Gain",
+        "value": "riscp",
+        "inline": true
+      },
+      {
+        "name": "R.I.S.C Loss",
+        "value": "riscm",
+        "inline": true
+      }
+    ]
+  },
+  "GBVS": {
+    "fields": [
+      {
+        "name": "Damage",
+        "value": "damage",
+        "inline": true
+      },
+
+      {
+        "name": "Startup",
+        "value": "startup",
+        "inline": true
+      },
+      {
+        "name": "Active",
+        "value": "active",
+        "inline": true
+      },
+      {
+        "name": "Recovery",
+        "value": "recovery",
+        "inline": true
+      },
+      {
+        "name": "On Block",
+        "value": "onblock",
+        "inline": true
+      },
+      {
+        "name": "On Hit",
+        "value": "onhit",
+        "inline": true
+      },
+      {
+        "name": "Guard",
+        "value": "guard",
+        "inline": true
+      },
+      {
+        "name": "Invul",
+        "value": "invuln",
+        "inline": true
+      }
+    ]
+  },
+  "DNFD": {
     "fields": [
       {
         "name": "Damage",
@@ -138,8 +489,18 @@
         "inline": true
       },
       {
+        "name": "Guard Damage",
+        "value": "guard damage",
+        "inline": true
+      },
+      {
         "name": "Invul",
         "value": "invuln",
+        "inline": true
+      },
+      {
+        "name": "Proration",
+        "value": "proration",
         "inline": true
       }
     ]

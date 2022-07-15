@@ -3,7 +3,9 @@ const {
   updateCharacter,
   massUpdateCharacters,
 } = require("./database/api-calls");
+const { massTestCharacterEmbed } = require("./automatedTest");
 const { generateMoveEmbed } = require("./helpers/generators");
+const { games } = require("./data/games.json");
 const {
   getCharacters,
   getCharacter,
@@ -35,13 +37,42 @@ const {
 // };
 
 // generateMoveEmbed(move, character);
-// updateCharacter("DBFZ/Videl");
-// getCharacters("DBFZ");
-// getCharacter("DBFZ", "Bardock");
+// updateCharacter("DBFZ/Goku");
+// getCharacters("BBTag");
 // getMoveset("DBFZ", "Bardock");
 // updateCharacter("DBFZ/Videl");
-
+// updateCharacter("DBFZ/Android_16");
 // updateCharacter("GGST/Sol_Badguy");
 // updateCharacter("GGST/Giovanna");
 // updateCharacter("GGST/Leo_Whitefang");
-massUpdateCharacters();
+// updateCharacter("BBCF/Ragna_the_Bloodedge");
+// updateCharacter("BBTag/Yang_Xiao_Long");
+// updateCharacter("BBTag/Mitsuru_Kirijo");
+// updateCharacter("BBTag/Rachel_Alucard");
+// updateCharacter("GGACR/A.B.A");
+// massUpdateCharacters();
+
+// let data = {
+//   embed: null,
+//   components: null,
+//   pageIndex: 0,
+//   game: "DBFZ",
+//   character: null,
+//   sortedMoveset: null,
+//   move: null,
+// };
+
+games.map((game) => {
+  let data = {
+    embed: null,
+    components: null,
+    pageIndex: 0,
+    game: game.path,
+    character: null,
+    sortedMoveset: null,
+    move: null,
+  };
+  massTestCharacterEmbed(data);
+});
+
+// massTestCharacterEmbed(data);

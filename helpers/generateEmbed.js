@@ -8,9 +8,6 @@ const {
   MessageActionRow,
 } = require("discord.js");
 
-// const { getCharacters } = require("./getCharacters");
-// const { getCharacterInfo } = require("./getCharacterInfo");
-// const { getMoveInfo } = require("./getMoveInfo");
 const {
   sortMoves,
   sortCharacters,
@@ -20,12 +17,9 @@ const {
 } = require("../helpers/generators");
 
 const { getCharacter, getCharacters, getInfo } = require("../database/queries");
-const e = require("express");
+const reBrackets = /\(([^)]+)\)/;
 
 async function generateEmbed(interaction, data) {
-  // console.log(move);
-  // console.log(interaction);
-
   if (interaction.customId === "game-list") {
     data = await generateGameListEmbed(data);
   }
@@ -49,50 +43,22 @@ async function generateEmbed(interaction, data) {
     data = await generatePageChange(data);
   }
   if (interaction.customId.substring(0, 4) === "move") {
+    let moveTypeCheck = reBrackets.exec(interaction.customId);
+    let moveCheck = reBrackets.exec(interaction.values[0]);
     const flatList = data.sortedMoveset.flat();
     const foundMovelist = flatList.find(
-      (list) => list.moveType === interaction.customId.substring(5)
+      (list) => list.moveType === moveTypeCheck[1]
     );
     const move = foundMovelist.moveList.find(
-      (move) =>
-        move.input === interaction.values[0] ||
-        move.name === interaction.values[0]
+      (move) => move.input === moveCheck[1] || move.name === moveCheck[1]
     );
     data.move = move;
     data = await generateMoveEmbed(data);
   }
   if (interaction.customId.substring(0, 3) === "sys") {
-    console.log(interaction.values[0]);
     await generateSysEmbed(data, interaction.values[0]);
-    // data = await generateSysEmbed(data);
   }
 
-  // if interaction = character
-  // get characters
-
-  // if (interaction.isCommand() || interaction.customId === "return-roster") {
-  //   data = await getCharacters();
-  // } else {
-  //   //check if char
-  //   if (interaction.componentType === "BUTTON") {
-  //     data = await getCharacterInfo(interaction.customId, null);
-  //     return data;
-  //   }
-  //   if (interaction.customId.substring(0, 4) === "char") {
-  //     data = await getCharacterInfo(interaction.values[0], null);
-  //   } else {
-  //     //if move
-  //     data = await getMoveInfo(
-  //       interaction.message.embeds[0].title,
-  //       interaction.values[0]
-  //     );
-  //   }
-  // }
-
-  // else
-  // get character info
-
-  // return data;
   await interaction.deferUpdate();
   await interaction.editReply({
     embeds: [data.embed],
@@ -103,14 +69,14 @@ async function generateEmbed(interaction, data) {
 
 async function generateGameListEmbed(data) {
   const embed = new MessageEmbed()
-    .setColor("#0099ff")
+    .setColor("#ee121b")
     .setTitle(`Game list`)
-    .setDescription("placeholder")
+    .setDescription("List of games currently supported by Dustbot")
     .setAuthor({
       name: "Dustloop Wiki",
       iconURL:
-        "https://www.dustloop.com/wiki/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
-      url: "https://www.dustloop.com/wiki/index.php?title=Main_Page",
+        "https://www.dustloop.com/w/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
+      url: "https://www.dustloop.com/w/Main_Page",
     });
 
   const components = await gameListRowGenerator(games);
@@ -134,14 +100,14 @@ async function generateRosterEmbed(data) {
   components.push(buttonRow);
 
   const embed = new MessageEmbed()
-    .setColor("#0099ff")
+    .setColor(info.color)
     .setTitle(`${info.title}`)
     .setThumbnail(`${info.thumbnail}`)
     .setDescription(`${info.description}`)
     .setAuthor({
       name: "Dustloop Page",
       iconURL:
-        "https://www.dustloop.com/wiki/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
+        "https://www.dustloop.com/w/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
       url: info.url,
     });
 
@@ -154,6 +120,7 @@ async function generateRosterEmbed(data) {
 
 async function generateCharacterEmbed(data) {
   const result = await getCharacter(data.game, data.character);
+  const info = await getInfo(data.game);
 
   const sortedMoveset = await sortMoves(result.moveSet, result.systemData);
 
@@ -179,16 +146,19 @@ async function generateCharacterEmbed(data) {
 
   components.push(buttonRow);
 
+  const twitterTag = result.twitterTag.join("\n");
+
   const embed = new MessageEmbed()
-    .setColor("#0099ff")
+    .setColor(info.color)
     .setTitle(`${result.name}`)
     .setThumbnail(`${result.thumbnail}`)
-    .setDescription(`${result.description}`)
-    .setFooter({ text: `Twitter tag | ${result.twitterTag.join("\n")}` })
+    .setFooter({
+      text: `Twitter tag | ${twitterTag === "" ? "N/A" : twitterTag}`,
+    })
     .setAuthor({
       name: "Dustloop Page",
       iconURL:
-        "https://www.dustloop.com/wiki/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
+        "https://www.dustloop.com/w/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
       url: result.url,
     });
 
@@ -244,10 +214,9 @@ async function generatePageChange(data) {
 }
 
 async function generateMoveEmbed(data) {
-  console.log(data.move);
-  console.log(data.character);
+  const info = await getInfo(data.game);
   const embed = new MessageEmbed()
-    .setColor("#0099ff")
+    .setColor(info.color)
     .setTitle(
       `${data.character.name} - ${
         data.move.name ? data.move.name : data.move.input
@@ -257,7 +226,7 @@ async function generateMoveEmbed(data) {
     .setAuthor({
       name: "Dustloop Page",
       iconURL:
-        "https://www.dustloop.com/wiki/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
+        "https://www.dustloop.com/w/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
       url: data.character.url,
     });
 
@@ -266,18 +235,26 @@ async function generateMoveEmbed(data) {
   }
 
   if (data.move.image !== "") {
-    embed.setImage(data.move.image);
-  }
+    // await fetch(data.move.image, { method: "HEAD" }).then((res) => {
+    //   console.log(res.status);
+    // });
 
-  console.log(templates[data.game]);
+    embed.setImage(data.move.image);
+  } else {
+    embed.setFooter({
+      text: "No image to display",
+    });
+  }
 
   const fields = templates[data.character.game].fields;
   fields.map((field) => {
-    embed.addFields({
-      name: field.name,
-      value: data.move[field.value] === "" ? "-" : data.move[field.value],
-      inline: field.inline,
-    });
+    if (data.move[field.value] !== undefined) {
+      embed.addFields({
+        name: field.name,
+        value: data.move[field.value] === "" ? "-" : data.move[field.value],
+        inline: field.inline,
+      });
+    }
   });
 
   data.embed = embed;
@@ -285,16 +262,17 @@ async function generateMoveEmbed(data) {
 }
 
 async function generateSysEmbed(data, key) {
+  const info = await getInfo(data.game);
   const found = data.character.systemData.find((el) => el.title === key);
 
   const embed = new MessageEmbed()
-    .setColor("#0099ff")
+    .setColor(info.color)
     .setTitle(`${key}`)
     .setThumbnail(data.character.thumbnail)
     .setAuthor({
       name: "Dustloop Page",
       iconURL:
-        "https://www.dustloop.com/wiki/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
+        "https://www.dustloop.com/w/images/thumb/3/30/Dustloop_Wiki.png/175px-Dustloop_Wiki.png",
       url: data.character.url,
     });
   const fields = {};

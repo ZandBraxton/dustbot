@@ -44,7 +44,11 @@ module.exports = {
       filter,
     });
     collector.on("collect", async (i) => {
-      data = await generateEmbed(i, data);
+      try {
+        data = await generateEmbed(i, data);
+      } catch (error) {
+        console.log(error);
+      }
     });
   },
 };
