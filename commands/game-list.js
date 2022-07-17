@@ -32,15 +32,19 @@ module.exports = {
       return i.user.id === interaction.user.id;
     };
 
-    const collector = await reply.createMessageComponentCollector({
-      filter,
-    });
-    collector.on("collect", async (i) => {
-      try {
-        data = await generateEmbed(i, data);
-      } catch (error) {
-        console.log(error);
-      }
-    });
+    try {
+      const collector = await reply.createMessageComponentCollector({
+        filter,
+      });
+      collector.on("collect", async (i) => {
+        try {
+          data = await generateEmbed(i, data);
+        } catch (error) {
+          console.log(error);
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
 };

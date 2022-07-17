@@ -172,16 +172,19 @@ client.on("interactionCreate", async (interaction) => {
           console.log(error);
         }
       }
+      try {
+        const filtered = choices.filter((choice) =>
+          choice.name
+            .toLocaleLowerCase()
+            .match(focusedOption.value.toLocaleLowerCase())
+        );
 
-      const filtered = choices.filter((choice) =>
-        choice.name
-          .toLocaleLowerCase()
-          .match(focusedOption.value.toLocaleLowerCase())
-      );
-
-      await interaction.respond(
-        filtered.map((choice) => ({ name: choice.name, value: choice.value }))
-      );
+        await interaction.respond(
+          filtered.map((choice) => ({ name: choice.name, value: choice.value }))
+        );
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 

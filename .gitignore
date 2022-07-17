@@ -3,3 +3,4 @@ node_modules
 README.txt
 database/api-calls.js
 getGames.js
+guildcheck.js

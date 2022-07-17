@@ -324,6 +324,11 @@
         "inline": true
       },
       {
+        "name": "Attack Level",
+        "value": "level",
+        "inline": true
+      },
+      {
         "name": "Blockstun",
         "value": "blockstun",
         "inline": true
