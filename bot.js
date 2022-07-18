@@ -195,7 +195,17 @@ client.on("interactionCreate", async (interaction) => {
   if (!command) return;
 
   try {
-    await command.execute(interaction, client);
+    const channel = interaction.member.guild.channels.cache.get(
+      interaction.channelId
+    );
+    if (channel.type !== "GUILD_VOICE") {
+      await command.execute(interaction, client);
+    } else {
+      await interaction.reply({
+        content: "Dustbot commands cannot be called in voice channels.",
+        ephemeral: true,
+      });
+    }
   } catch (error) {
     console.error(error);
     await interaction.reply({
