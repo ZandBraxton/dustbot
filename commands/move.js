@@ -42,7 +42,9 @@ module.exports = {
     const character = interaction.options.getString("character-name");
     const game = interaction.options.getString("game");
     const moveType = interaction.options.getString("move-type");
-    const moveName = interaction.options.getString("move");
+    const rawMoveName = interaction.options.getString("move");
+    const moveArray = rawMoveName.split("[");
+    const moveName = moveArray[0].trim();
 
     //cache's data to be used through changing embeds
     let data = {
@@ -70,7 +72,11 @@ module.exports = {
 
     await interaction.reply({
       embeds: [data.embed],
+      // components: data.components,
+    });
+    const componentReply = await interaction.followUp({
       components: data.components,
+      ephemeral: true,
     });
     const reply = await interaction.fetchReply();
 
@@ -79,12 +85,12 @@ module.exports = {
     };
 
     try {
-      const collector = await reply.createMessageComponentCollector({
+      const collector = await componentReply.createMessageComponentCollector({
         filter,
       });
       collector.on("collect", async (i) => {
         try {
-          data = await generateEmbed(i, data);
+          data = await generateEmbed(i, data, reply);
         } catch (error) {
           console.log(error);
         }

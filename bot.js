@@ -154,15 +154,37 @@ client.on("interactionCreate", async (interaction) => {
 
           if (moveSet.length >= 25) {
             for (let i = 0; i < 24; i++) {
-              choices.push(
-                moveSet[i].name ? moveSet[i].name : moveSet[i].input
-              );
+              if (moveSet[i].name && moveSet[i].input) {
+                if (moveSet[i].name === moveSet[i].input) {
+                  choices.push(moveSet[i].input);
+                } else {
+                  choices.push(`${moveSet[i].name} [${moveSet[i].input}]`);
+                }
+              } else if (!moveSet[i].name && moveSet[i].input) {
+                choices.push(moveSet[i].input);
+              } else if (moveSet[i].name && !moveSet[i].input) {
+                choices.push(moveSet[i].name);
+              } else {
+                choices.push("N/A");
+              }
             }
             choices.push("Type to view more");
           } else {
-            moveSet.map((move) =>
-              choices.push(move.name ? move.name : move.input)
-            );
+            moveSet.map((move) => {
+              if (move.name && move.input) {
+                if (move.name === move.input) {
+                  choices.push(move.input);
+                } else {
+                  choices.push(`${move.name} [${move.input}]`);
+                }
+              } else if (!move.name && move.input) {
+                choices.push(move.input);
+              } else if (move.name && !move.input) {
+                choices.push(move.name);
+              } else {
+                choices.push("N/A");
+              }
+            });
           }
 
           return await interaction.respond(
@@ -208,10 +230,14 @@ client.on("interactionCreate", async (interaction) => {
     }
   } catch (error) {
     console.error(error);
-    await interaction.reply({
-      content: "There was an error while executing this command!",
-      ephemeral: true,
-    });
+    try {
+      await interaction.reply({
+        content: "There was an error while executing this command!",
+        ephemeral: true,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 });
 

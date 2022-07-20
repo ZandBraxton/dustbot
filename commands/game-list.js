@@ -20,11 +20,14 @@ module.exports = {
       move: null,
     };
 
-    const embed = await generateGameListEmbed(data);
+    await generateGameListEmbed(data);
 
     await interaction.reply({
-      embeds: [embed.embed],
-      components: embed.components,
+      embeds: [data.embed],
+    });
+    const componentReply = await interaction.followUp({
+      components: data.components,
+      ephemeral: true,
     });
     const reply = await interaction.fetchReply();
 
@@ -33,12 +36,12 @@ module.exports = {
     };
 
     try {
-      const collector = await reply.createMessageComponentCollector({
+      const collector = await componentReply.createMessageComponentCollector({
         filter,
       });
       collector.on("collect", async (i) => {
         try {
-          data = await generateEmbed(i, data);
+          data = await generateEmbed(i, data, reply);
         } catch (error) {
           console.log(error);
         }

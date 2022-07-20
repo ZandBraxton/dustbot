@@ -32,10 +32,9 @@ const prevButton = new MessageButton()
   .setEmoji("⬅️");
 
 //General function that decides which embed to be called
-async function generateEmbed(interaction, data) {
+async function generateEmbed(interaction, data, message) {
   if (interaction.customId === "close") {
-    await interaction.deferUpdate();
-    await interaction.deleteReply();
+    await message.delete();
     return;
   }
 
@@ -83,8 +82,10 @@ async function generateEmbed(interaction, data) {
   }
 
   await interaction.deferUpdate();
-  await interaction.editReply({
+  await message.edit({
     embeds: [data.embed],
+  });
+  await interaction.editReply({
     components: data.components,
   });
   return data;
