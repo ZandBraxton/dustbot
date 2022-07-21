@@ -7,7 +7,7 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("game-list")
-    .setDescription("View the list of supported games!"),
+    .setDescription("View the list of supported games."),
   async execute(interaction) {
     //cache's data to be used through changing embeds
     let data = {

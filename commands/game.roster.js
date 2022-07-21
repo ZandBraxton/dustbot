@@ -7,7 +7,7 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("game-roster")
-    .setDescription("Select a game to return its character roster from it!")
+    .setDescription("View the character roster of a specified game.")
     .addStringOption((option) =>
       option
         .setName("game")
