@@ -9,7 +9,7 @@ const {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("move")
-    .setDescription("Get info on a character from a selected game")
+    .setDescription("Get info on a character's move from a specified game.")
     .addStringOption((option) =>
       option
         .setName("game")
