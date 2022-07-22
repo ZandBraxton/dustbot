@@ -34,7 +34,7 @@ const prevButton = new MessageButton()
 //General function that decides which embed to be called
 async function generateEmbed(interaction, data, message) {
   if (interaction.customId === "close") {
-    await message.delete();
+    await message.deleteReply();
     return;
   }
 
@@ -82,9 +82,11 @@ async function generateEmbed(interaction, data, message) {
   }
 
   await interaction.deferUpdate();
-  await message.edit({
+  //public embed
+  await message.editReply({
     embeds: [data.embed],
   });
+  //ephemeral selection rows/buttons
   await interaction.editReply({
     components: data.components,
   });

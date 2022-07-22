@@ -22,14 +22,16 @@ module.exports = {
 
     await generateGameListEmbed(data);
 
+    //public embed
     await interaction.reply({
       embeds: [data.embed],
     });
+
+    //ephemeral selection rows/buttons
     const componentReply = await interaction.followUp({
       components: data.components,
       ephemeral: true,
     });
-    const reply = await interaction.fetchReply();
 
     const filter = (i) => {
       return i.user.id === interaction.user.id;
@@ -41,7 +43,7 @@ module.exports = {
       });
       collector.on("collect", async (i) => {
         try {
-          data = await generateEmbed(i, data, reply);
+          data = await generateEmbed(i, data, interaction);
         } catch (error) {
           console.log(error);
         }
