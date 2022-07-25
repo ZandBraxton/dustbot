@@ -4,7 +4,7 @@
 
 By using slash commands, you can bring up the list of supported games and navigate from there, or even search directly using discord's autocomplete function
 
-Click here to add the bot to your server https://t.co/Wuewt60uHc
+# [Click here to add the bot to your server!](https://discord.com/oauth2/authorize?client_id=981212190201753611&permissions=277025442816&scope=bot%20applications.commands)
 
 ---
 
